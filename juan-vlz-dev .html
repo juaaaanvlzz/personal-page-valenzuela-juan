@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Juan Vlz — Desarrollador de software</title>
+<meta name="description" content="Portafolio y blog de Juan Vlz, desarrollador de software.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #071318;
+    --bg-2: #0b1d24;
+    --card: #0f262f;
+    --line: #1b3a45;
+    --text: #e8f4f6;
+    --muted: #8fb0b8;
+    --accent: #19c2d8;
+    --accent-2: #0e7f95;
+    --tint: #1aa9bf;
+    --shadow: 0 18px 40px rgba(0, 0, 0, .35);
+  }
+  [data-theme="light"] {
+    --bg: #f3f8f9;
+    --bg-2: #e7f1f3;
+    --card: #ffffff;
+    --line: #d3e3e7;
+    --text: #0b1d24;
+    --muted: #55727a;
+    --accent: #0e8fa6;
+    --accent-2: #0b6e80;
+    --tint: #2bb5ca;
+    --shadow: 0 18px 40px rgba(11, 29, 36, .10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Inter", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    transition: background .3s, color .3s;
+  }
+  h1, h2, h3, h4, .logo { font-family: "Sora", system-ui, sans-serif; line-height: 1.2; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .container { width: min(1180px, 100% - 32px); margin-inline: auto; }
+
+  /* Imágenes con tono turquesa */
+  .media {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--tint), var(--accent-2));
+  }
+  .media img { mix-blend-mode: luminosity; opacity: .9; transition: transform .5s; }
+  a:hover .media img, .media:hover img { transform: scale(1.06); }
+
+  /* Cabecera */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.3rem; }
+  .logo-mark {
+    min-width: 36px; height: 30px; padding: 0 6px; border-radius: 8px;
+    background: var(--accent); color: #04161b;
+    display: grid; place-items: center;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: .8rem; font-weight: 700;
+  }
+  .badge {
+    aspect-ratio: 1; border-radius: 50%; margin-bottom: 10px;
+    border: 2px solid var(--line); background: var(--card); color: var(--accent);
+    display: grid; place-items: center; transition: border-color .2s, transform .2s;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-weight: 700; font-size: 1.35rem;
+  }
+  .topic:hover .badge { border-color: var(--accent); transform: translateY(-4px); }
+  .code {
+    margin-top: 28px; background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 16px 18px; max-width: 520px; overflow-x: auto; line-height: 1.7;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: .85rem; color: var(--muted);
+  }
+  .code b { color: var(--accent); font-weight: 600; }
+  .nav ul { display: flex; gap: 28px; list-style: none; font-size: .93rem; font-weight: 500; }
+  .nav ul a { color: var(--muted); transition: color .2s; }
+  .nav ul a:hover, .nav ul a.active { color: var(--accent); }
+  .nav-actions { display: flex; gap: 10px; align-items: center; }
+  .icon-btn {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 1px solid var(--line); background: var(--card); color: var(--text);
+    cursor: pointer; font-size: 1rem; display: grid; place-items: center;
+    transition: border-color .2s, transform .2s;
+  }
+  .icon-btn:hover { border-color: var(--accent); transform: translateY(-2px); }
+  #menuBtn { display: none; }
+
+  .btn {
+    display: inline-block; padding: 12px 24px; border-radius: 999px;
+    background: var(--accent); color: #04161b; font-weight: 600; font-size: .93rem;
+    border: none; cursor: pointer; transition: transform .2s, box-shadow .2s;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px color-mix(in srgb, var(--accent) 40%, transparent); }
+  .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+
+  /* Hero */
+  .hero { padding: 72px 0 56px; }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+  .eyebrow { color: var(--accent); font-weight: 600; font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; }
+  .hero h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; margin: 14px 0 18px; }
+  .hero h1 span { color: var(--accent); }
+  .hero p { color: var(--muted); max-width: 520px; margin-bottom: 28px; font-size: 1.05rem; }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-photo { aspect-ratio: 4 / 4.4; border-radius: 24px; box-shadow: var(--shadow); }
+  .stats { display: flex; gap: 36px; margin-top: 40px; }
+  .stats strong { font-family: "Sora", sans-serif; font-size: 1.6rem; display: block; }
+  .stats span { color: var(--muted); font-size: .85rem; }
+
+  /* Secciones */
+  section { padding: 48px 0; }
+  .section-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 26px; gap: 16px; }
+  .section-head h2 { font-size: 1.6rem; }
+  .section-head a { color: var(--accent); font-size: .9rem; font-weight: 600; }
+
+  .tag {
+    display: inline-block; padding: 4px 12px; border-radius: 999px;
+    background: color-mix(in srgb, var(--accent) 16%, transparent);
+    color: var(--accent); font-size: .74rem; font-weight: 600;
+  }
+  .meta { color: var(--muted); font-size: .8rem; display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* Destacados */
+  .featured { display: grid; grid-template-columns: 1.4fr 1fr; gap: 22px; }
+  .feature-big { position: relative; display: block; min-height: 440px; border-radius: 18px; overflow: hidden; }
+  .feature-big .media { position: absolute; inset: 0; border-radius: 0; }
+  .feature-big .overlay {
+    position: absolute; inset: 0; padding: 28px;
+    display: flex; flex-direction: column; justify-content: flex-end; gap: 10px;
+    background: linear-gradient(to top, rgba(3, 14, 18, .92), transparent 65%);
+    color: #e8f4f6;
+  }
+  .feature-big h3 { font-size: 1.7rem; max-width: 520px; }
+  .feature-big .meta { color: #a9c6cc; }
+  .feature-list { display: grid; gap: 16px; }
+  .mini {
+    display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: center;
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px;
+    transition: border-color .2s, transform .2s;
+  }
+  .mini:hover { border-color: var(--accent); transform: translateX(4px); }
+  .mini .media { aspect-ratio: 1; border-radius: 12px; }
+  .mini h4 { font-size: 1rem; margin: 8px 0 6px; }
+
+  /* Temas */
+  .topics { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+  .topic { text-align: center; }
+  .topic .media { aspect-ratio: 1; border-radius: 50%; margin-bottom: 10px; border: 2px solid var(--line); transition: border-color .2s; }
+  .topic:hover .media { border-color: var(--accent); }
+  .topic strong { font-size: .92rem; display: block; }
+  .topic span { color: var(--muted); font-size: .78rem; }
+
+  /* Recientes + lateral */
+  .layout { display: grid; grid-template-columns: 1fr 340px; gap: 32px; align-items: start; }
+  .posts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 18px; overflow: hidden;
+    display: flex; flex-direction: column; transition: transform .25s, border-color .25s, box-shadow .25s;
+  }
+  .card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: var(--shadow); }
+  .card .media { aspect-ratio: 16 / 10; border-radius: 0; }
+  .card-body { padding: 18px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .card h3 { font-size: 1.1rem; }
+  .card p { color: var(--muted); font-size: .9rem; }
+  .card .meta { margin-top: auto; padding-top: 8px; }
+
+  aside { display: grid; gap: 22px; position: sticky; top: 90px; }
+  .widget { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+  .widget h3 { font-size: 1.05rem; margin-bottom: 16px; }
+  .author { text-align: center; }
+  .author .media { width: 96px; height: 96px; border-radius: 50%; margin: 0 auto 14px; }
+  .author p { color: var(--muted); font-size: .88rem; margin: 8px 0 16px; }
+  .socials { display: flex; justify-content: center; gap: 8px; }
+  .socials a {
+    width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line);
+    display: grid; place-items: center; font-size: .8rem; font-weight: 600; transition: .2s;
+  }
+  .socials a:hover { background: var(--accent); color: #04161b; border-color: var(--accent); }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tags a { padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; font-size: .8rem; color: var(--muted); transition: .2s; }
+  .tags a:hover { border-color: var(--accent); color: var(--accent); }
+  .popular { display: grid; gap: 14px; list-style: none; counter-reset: n; }
+  .popular li { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start; counter-increment: n; }
+  .popular li::before { content: "0" counter(n); font-family: "Sora", sans-serif; font-weight: 800; color: var(--accent); font-size: 1.1rem; }
+  .popular a { font-size: .9rem; font-weight: 500; }
+  .popular a:hover { color: var(--accent); }
+
+  /* Boletín */
+  .newsletter {
+    background: linear-gradient(135deg, var(--bg-2), var(--card));
+    border: 1px solid var(--line); border-radius: 24px; padding: 48px 32px; text-align: center;
+  }
+  .newsletter h2 { font-size: 1.8rem; margin-bottom: 10px; }
+  .newsletter p { color: var(--muted); margin-bottom: 24px; }
+  .newsletter form { display: flex; gap: 10px; max-width: 460px; margin: 0 auto; }
+  .newsletter input {
+    flex: 1; min-width: 0; padding: 12px 20px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--bg); color: var(--text); font: inherit;
+  }
+  .newsletter input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  #formMsg { margin-top: 14px; font-size: .9rem; color: var(--accent); min-height: 1.4em; }
+
+  footer { border-top: 1px solid var(--line); margin-top: 48px; padding: 28px 0; }
+  .foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; color: var(--muted); font-size: .85rem; }
+
+  /* Responsive */
+  @media (max-width: 980px) {
+    .hero-grid, .featured, .layout { grid-template-columns: 1fr; }
+    .hero-photo { max-width: 420px; }
+    .topics { grid-template-columns: repeat(3, 1fr); }
+    aside { position: static; }
+  }
+  @media (max-width: 720px) {
+    #menuBtn { display: grid; }
+    .nav ul {
+      display: none; position: absolute; top: 68px; left: 0; right: 0;
+      flex-direction: column; gap: 0; background: var(--bg); border-bottom: 1px solid var(--line); padding: 8px 16px 16px;
+    }
+    .nav ul.open { display: flex; }
+    .nav ul a { display: block; padding: 12px 0; }
+    .posts { grid-template-columns: 1fr; }
+    .feature-big { min-height: 340px; }
+    .feature-big h3 { font-size: 1.3rem; }
+    .mini { grid-template-columns: 92px 1fr; }
+    .newsletter form { flex-direction: column; }
+    .stats { gap: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#" class="logo"><span class="logo-mark">&lt;/&gt;</span>Juan Vlz</a>
+    <ul id="menu">
+      <li><a href="#" class="active">Inicio</a></li>
+      <li><a href="#destacados">Proyectos</a></li>
+      <li><a href="#temas">Stack</a></li>
+      <li><a href="#recientes">Blog</a></li>
+      <li><a href="#boletin">Contacto</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeBtn" aria-label="Cambiar tema">☀</button>
+      <button class="icon-btn" id="menuBtn" aria-label="Abrir menú">☰</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">Hola, soy Juan Vlz · Desarrollador de software</span>
+        <h1>Construyo <span>software</span> que resuelve problemas <span>reales</span></h1>
+        <p>Desarrollo aplicaciones web y APIs, desde la base de datos hasta la interfaz. Aquí comparto mis proyectos y lo que aprendo programando.</p>
+        <div class="hero-cta">
+          <a href="#destacados" class="btn">Ver proyectos</a>
+          <a href="#boletin" class="btn ghost">Contactarme</a>
+        </div>
+<pre class="code"><b>const</b> juanVlz = {
+  rol: <b>"Full-stack developer"</b>,
+  stack: [<b>"JavaScript"</b>, <b>"Python"</b>, <b>"SQL"</b>],
+  disponible: <b>true</b>
+};</pre>
+        <div class="stats">
+          <div><strong>30+</strong><span>Proyectos</span></div>
+          <div><strong>5</strong><span>Años programando</span></div>
+          <div><strong>12</strong><span>Clientes</span></div>
+        </div>
+      </div>
+      <div class="media hero-photo">
+        <img src="https://picsum.photos/seed/dev-setup-juan/900/1000" alt="Imagen de portada">
+      </div>
+    </div>
+  </section>
+
+  <!-- PROYECTOS -->
+  <section id="destacados">
+    <div class="container">
+      <div class="section-head">
+        <h2>Proyectos destacados</h2>
+        <a href="#">Ver GitHub →</a>
+      </div>
+      <div class="featured">
+        <a href="#" class="feature-big">
+          <div class="media"><img src="https://picsum.photos/seed/proyecto-dashboard/1200/900" alt="Proyecto destacado"></div>
+          <div class="overlay">
+            <span class="tag" style="align-self:flex-start">Aplicación web</span>
+            <h3>Panel de ventas en tiempo real para pymes</h3>
+            <div class="meta"><span>React · Node.js · PostgreSQL</span><span>2026</span></div>
+          </div>
+        </a>
+        <div class="feature-list">
+          <a href="#" class="mini">
+            <div class="media"><img src="https://picsum.photos/seed/proyecto-api/300/300" alt=""></div>
+            <div><span class="tag">API</span><h4>API de pagos con autenticación JWT</h4><div class="meta"><span>Python · FastAPI</span></div></div>
+          </a>
+          <a href="#" class="mini">
+            <div class="media"><img src="https://picsum.photos/seed/proyecto-movil/300/300" alt=""></div>
+            <div><span class="tag">Móvil</span><h4>App de reservas para un gimnasio</h4><div class="meta"><span>React Native</span></div></div>
+          </a>
+          <a href="#" class="mini">
+            <div class="media"><img src="https://picsum.photos/seed/proyecto-cli/300/300" alt=""></div>
+            <div><span class="tag">Open source</span><h4>CLI para automatizar despliegues</h4><div class="meta"><span>Go · Docker</span></div></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section id="temas">
+    <div class="container">
+      <div class="section-head"><h2>Mi stack</h2></div>
+      <div class="topics">
+        <div class="topic"><div class="badge">JS</div><strong>JavaScript</strong><span>Avanzado</span></div>
+        <div class="topic"><div class="badge">TS</div><strong>TypeScript</strong><span>Avanzado</span></div>
+        <div class="topic"><div class="badge">Py</div><strong>Python</strong><span>Avanzado</span></div>
+        <div class="topic"><div class="badge">Re</div><strong>React</strong><span>Avanzado</span></div>
+        <div class="topic"><div class="badge">SQL</div><strong>PostgreSQL</strong><span>Intermedio</span></div>
+        <div class="topic"><div class="badge">Dk</div><strong>Docker</strong><span>Intermedio</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG + LATERAL -->
+  <section id="recientes">
+    <div class="container layout">
+      <div>
+        <div class="section-head"><h2>Últimos artículos del blog</h2></div>
+        <div class="posts">
+          <a href="#" class="card">
+            <div class="media"><img src="https://picsum.photos/seed/post-git/800/500" alt=""></div>
+            <div class="card-body"><span class="tag" style="align-self:flex-start">Git</span><h3>Git sin miedo: los comandos que uso a diario</h3><p>Ramas, rebase y cómo deshacer errores sin perder trabajo.</p><div class="meta"><span>2 nov 2026</span><span>7 min</span></div></div>
+          </a>
+          <a href="#" class="card">
+            <div class="media"><img src="https://picsum.photos/seed/post-api-rest/800/500" alt=""></div>
+            <div class="card-body"><span class="tag" style="align-self:flex-start">Backend</span><h3>Cómo diseñar una API REST que no dé dolores de cabeza</h3><p>Nombres, versiones, errores y paginación explicados con ejemplos.</p><div class="meta"><span>27 oct 2026</span><span>8 min</span></div></div>
+          </a>
+          <a href="#" class="card">
+            <div class="media"><img src="https://picsum.photos/seed/post-tests/800/500" alt=""></div>
+            <div class="card-body"><span class="tag" style="align-self:flex-start">Testing</span><h3>Pruebas unitarias: por dónde empezar</h3><p>Qué probar primero y cómo escribir tests que sí se mantienen.</p><div class="meta"><span>21 oct 2026</span><span>6 min</span></div></div>
+          </a>
+          <a href="#" class="card">
+            <div class="media"><img src="https://picsum.photos/seed/post-docker/800/500" alt=""></div>
+            <div class="card-body"><span class="tag" style="align-self:flex-start">DevOps</span><h3>Docker para desarrolladores en 15 minutos</h3><p>De cero a un contenedor con tu app y su base de datos.</p><div class="meta"><span>15 oct 2026</span><span>5 min</span></div></div>
+          </a>
+          <a href="#" class="card">
+            <div class="media"><img src="https://picsum.photos/seed/post-css-dark/800/500" alt=""></div>
+            <div class="card-body"><span class="tag" style="align-self:flex-start">Frontend</span><h3>Modo oscuro con CSS en diez minutos</h3><p>Variables, un atributo en el HTML y unas pocas líneas de JavaScript.</p><div class="meta"><span>9 oct 2026</span><span>5 min</span></div></div>
+          </a>
+          <a href="#" class="card">
+            <div class="media"><img src="https://picsum.photos/seed/post-carrera/800/500" alt=""></div>
+            <div class="card-body"><span class="tag" style="align-self:flex-start">Carrera</span><h3>Lo que aprendí en mis primeros cinco años programando</h3><p>Errores, aciertos y consejos para quien está empezando.</p><div class="meta"><span>1 oct 2026</span><span>6 min</span></div></div>
+          </a>
+        </div>
+      </div>
+
+      <aside>
+        <div class="widget author">
+          <div class="media"><img src="https://picsum.photos/seed/autor-juanvlz/200/200" alt="Juan Vlz"></div>
+          <h3 style="margin-bottom:0">Juan Vlz</h3>
+          <p>Desarrollador de software full-stack. Me gusta el código limpio, automatizar tareas y compartir lo que aprendo.</p>
+          <div class="socials"><a href="#" title="GitHub">gh</a><a href="#" title="LinkedIn">in</a><a href="#" title="X">X</a><a href="#" title="Correo">@</a></div>
+        </div>
+        <div class="widget">
+          <h3>Más leídos</h3>
+          <ol class="popular">
+            <li><a href="#">Guía para tu primer proyecto full-stack</a></li>
+            <li><a href="#">Atajos de VS Code que ahorran horas</a></li>
+            <li><a href="#">SQL para quien solo ha usado un ORM</a></li>
+            <li><a href="#">Cómo preparar una entrevista técnica</a></li>
+          </ol>
+        </div>
+        <div class="widget">
+          <h3>Etiquetas</h3>
+          <div class="tags">
+            <a href="#">JavaScript</a><a href="#">Python</a><a href="#">React</a><a href="#">Node.js</a><a href="#">SQL</a><a href="#">Docker</a><a href="#">Git</a><a href="#">Testing</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="boletin">
+    <div class="container">
+      <div class="newsletter">
+        <h2>¿Tienes un proyecto en mente?</h2>
+        <p>Déjame tu correo y te escribo para conversar sobre tu idea.</p>
+        <form id="newsForm">
+          <input type="email" placeholder="tu@correo.com" required aria-label="Correo electrónico">
+          <button class="btn" type="submit">Contactar</button>
+        </form>
+        <div id="formMsg" role="status"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container foot">
+    <a href="#" class="logo" style="font-size:1.05rem">Juan Vlz</a>
+    <span>© 2026 Juan Vlz · Desarrollador de software. Fotos de Picsum Photos.</span>
+  </div>
+</footer>
+
+<script>
+  // Tema claro / oscuro
+  var root = document.documentElement;
+  var themeBtn = document.getElementById('themeBtn');
+  function setTheme(t) {
+    root.setAttribute('data-theme', t);
+    themeBtn.textContent = t === 'dark' ? '☀' : '☾';
+    try { localStorage.setItem('tema', t); } catch (e) {}
+  }
+  var saved = null;
+  try { saved = localStorage.getItem('tema'); } catch (e) {}
+  setTheme(saved || 'dark');
+  themeBtn.addEventListener('click', function () {
+    setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  // Menú móvil
+  var menu = document.getElementById('menu');
+  document.getElementById('menuBtn').addEventListener('click', function () { menu.classList.toggle('open'); });
+  menu.addEventListener('click', function () { menu.classList.remove('open'); });
+
+  // Si una imagen no carga, se oculta y queda el degradado de fondo
+  document.querySelectorAll('.media img').forEach(function (img) {
+    img.addEventListener('error', function () { img.style.display = 'none'; });
+  });
+
+  // Formulario de boletín (demostración)
+  document.getElementById('newsForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('formMsg').textContent = '¡Gracias! Te escribiré pronto.';
+    e.target.reset();
+  });
+</script>
+</body>
+</html>
